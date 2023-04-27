@@ -1,0 +1,34 @@
+h2 {
+  margin-top: 40px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.list-group-item {
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+  color: #343a40;
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef;
+  border-color: #e9ecef;
+}
+
+.post-info {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
