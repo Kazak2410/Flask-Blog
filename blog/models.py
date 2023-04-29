@@ -28,3 +28,11 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post: {self.title}"
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f"Category: {self.name}"

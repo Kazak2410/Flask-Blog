@@ -9,7 +9,7 @@
           <hr>
           <h2>{{ post.title }}</h2>
           <p class="meta">{{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-          <p class="text-preview">{{ post.content[:250] }}...</p>
+          <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
           <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
           <hr>
         {% endfor %}
@@ -25,9 +25,9 @@
         <hr>
         <h3>Categories</h3>
         <div class="list-group">
-          <a href="#" class="list-group-item">Category 1</a>
-          <a href="#" class="list-group-item">Category 2</a>
-          <a href="#" class="list-group-item">Category 3</a>
+          {% for category in categories %}
+            <a href="#" class="list-group-item">{{ category.name }}</a>
+          {% endfor %}
         </div>
     </div>
 </div>
