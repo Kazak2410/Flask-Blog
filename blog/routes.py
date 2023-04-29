@@ -1,14 +1,14 @@
 from flask import render_template, url_for, flash, redirect
 from blog import app, db, bcrypt
-from blog.forms import RegisterForm, LoginForm
-from blog.models import User
+from blog.forms import RegisterForm, LoginForm, PostForm
+from blog.models import User, Post
 from flask_login import login_user, logout_user, login_required, current_user
 
 
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', posts=Post.query.all(), title='Home')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -21,7 +21,7 @@ def register():
         db.session.commit()
         flash('You have just been registered!', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, title='Register')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,4 +35,35 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Check your email and password', 'danger')
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, title='LogIn')
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route('/create_post', methods=['GET', 'POST'])
+@login_required
+def create_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('The post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', form=form, title='CreatPost')
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', post=post, title=post.title)
+
+
+@app.route('/account/<int:user_id>')
+def account(user_id):
+    user = User.query.get(user_id)
+    return render_template('account.html', user=user, title='Account')

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, EmailField, SubmitField, PasswordField
+from wtforms import StringField, EmailField, SubmitField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Email, Length, ValidationError
 from blog.models import User
 
@@ -26,3 +26,9 @@ class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), Email()])
     password = StringField('Password', validators=[DataRequired()])
     submit = SubmitField('Log in')
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(3, 100)])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Create')
