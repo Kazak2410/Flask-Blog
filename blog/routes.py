@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import render_template, url_for, flash, redirect, abort, request
 from blog import app, db, bcrypt
 from blog.forms import RegisterForm, LoginForm, PostForm
@@ -100,3 +101,14 @@ def update_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
     return render_template('create_post.html', title='Update Post', form=form)
+
+
+@app.route('/update_activity', methods=['POST'])
+@login_required
+def update_activity():
+    data = request.get_json()
+    last_activity = datetime.fromtimestamp(int(data['last_activity'])/1000.0)
+    user_activity = User.query.filter_by(id=current_user.id).first()
+    user_activity.last_activity =  last_activity
+    db.session.commit()
+    return 'OK'

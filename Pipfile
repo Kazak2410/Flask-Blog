@@ -12,6 +12,7 @@ bcrypt = "*"
 itsdangerous = "*"
 flask-bcrypt = "*"
 email-validator = "*"
+flask-migrate = "*"
 
 [dev-packages]
 

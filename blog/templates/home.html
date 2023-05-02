@@ -8,7 +8,8 @@
         {% for post in posts %}
           <hr>
           <h2>{{ post.title }}</h2>
-          <p class="meta">{{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+          <p class="meta">Puplished by <a href="{{ url_for('account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
+            in {{ post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
           <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
           <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
           <hr>
