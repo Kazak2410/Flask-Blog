@@ -13,6 +13,7 @@ itsdangerous = "*"
 flask-bcrypt = "*"
 email-validator = "*"
 flask-migrate = "*"
+alembic = "*"
 
 [dev-packages]
 

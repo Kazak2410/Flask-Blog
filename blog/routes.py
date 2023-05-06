@@ -52,7 +52,8 @@ def logout():
 def create_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        category = Category.query.filter_by(name=form.category.data).first()
+        post = Post(title=form.title.data, content=form.content.data, author=current_user, category=category)
         db.session.add(post)
         db.session.commit()
         flash('The post has been created!', 'success')
@@ -112,3 +113,11 @@ def update_activity():
     user_activity.last_activity =  last_activity
     db.session.commit()
     return 'OK'
+
+
+@app.route('/category/<int:category_id>/')
+def category(category_id):
+    posts = Post.query.filter_by(category_id=category_id)
+    category_name = Category.query.filter_by(id=category_id).first().name
+    categories = Category.query.all()
+    return render_template('category.html', posts=posts, categories=categories, title=category_name)

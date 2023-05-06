@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, EmailField, SubmitField, PasswordField, TextAreaField
+from blog import app
+from wtforms import StringField, EmailField, SubmitField, PasswordField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Email, Length, ValidationError
-from blog.models import User
+from blog.models import User, Category
 
 
 class RegisterForm(FlaskForm):
@@ -31,4 +32,6 @@ class LoginForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(3, 100)])
     content = TextAreaField('Content', validators=[DataRequired()])
+    with app.app_context():
+        category = SelectField('Category', choices=[(category.name, category.name) for category in Category.query.all()])
     submit = SubmitField('Create')

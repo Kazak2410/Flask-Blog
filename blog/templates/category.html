@@ -26,9 +26,9 @@
         <hr>
         <h3>Categories</h3>
         <div class="list-group">
-          {% for category in categories %}
-            <a href="{{ url_for('category', category_id=category.id) }}" class="list-group-item">{{ category.name }}</a>
-          {% endfor %}
+            {% for category in categories %}
+              <a href="{{ url_for('category', category_id=category.id) }}" class="list-group-item">{{ category.name }}</a>
+            {% endfor %}
         </div>
     </div>
 </div>

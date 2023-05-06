@@ -1,5 +1,10 @@
 from blog import app
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def run_app():
+    with app.app_context():
+        if __name__ == '__main__':
+            app.run(debug=True)
+
+
+run_app()
