@@ -15,15 +15,7 @@
             {% endfor %}
           </div>
           <div class="form-group">
-            {{ form.password.label(class="form-control-label") }}
-            {{ form.password(class="form-control form-control-lg", type="password") }}
-            {% for error in form.password.errors %}
-            <span class="form-text text-danger">{{ error }}</span>
-            {% endfor %}
-          </div>
-          <div class="form-group">
             {{ form.submit(class="btn btn-primary btn-lg") }}
-            <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
           </div>
         </form>
       </div>
