@@ -10,7 +10,8 @@ from flask_mail import Message
 
 @app.route('/')
 def home():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=3)
     categories = Category.query.all()
     return render_template('home.html', posts=posts, categories=categories, title='Home')
 
@@ -73,7 +74,9 @@ def post(post_id):
 @login_required
 def account(user_id):
     user = User.query.get(user_id)
-    return render_template('account.html', user=user, title='Account')
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=3)
+    return render_template('account.html', user=user, posts=posts, title='Account')
 
 
 @app.route('/post/<int:post_id>/delete', methods=['POST'])
