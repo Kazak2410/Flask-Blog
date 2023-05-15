@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from blog import app
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, EmailField, SubmitField, PasswordField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Email, Length, ValidationError
 from blog.models import User, Category
@@ -51,3 +52,11 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+
+class UpdateAccountForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Update')
+    

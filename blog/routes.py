@@ -1,8 +1,10 @@
 import os
+import secrets
+from PIL import Image
 from datetime import datetime
 from flask import render_template, url_for, flash, redirect, abort, request
 from blog import app, db, bcrypt, mail
-from blog.forms import RegisterForm, LoginForm, PostForm, RequestResetForm, ResetPasswordForm
+from blog.forms import RegisterForm, LoginForm, PostForm, RequestResetForm, ResetPasswordForm, UpdateAccountForm
 from blog.models import User, Post, Category
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Message
@@ -71,12 +73,12 @@ def post(post_id):
 
 
 @app.route('/account/<int:user_id>')
-@login_required
 def account(user_id):
     user = User.query.get(user_id)
     page = request.args.get('page', 1, type=int)
     posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=3)
-    return render_template('account.html', user=user, posts=posts, title='Account')
+    image_file = url_for('static', filename='images/' + user.image_file)
+    return render_template('account.html', user=user, posts=posts, image_file=image_file, title='Account')
 
 
 @app.route('/post/<int:post_id>/delete', methods=['POST'])
@@ -166,3 +168,35 @@ def reset_token(token):
         flash('Your password has been updated! You are now to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', form=form, title='Reset Password')
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
+
+
+@app.route('/update_account', methods=['GET', 'POST'])
+def update_account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account', user_id=current_user.id))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    return render_template('update_account.html', form=form, title='Account')

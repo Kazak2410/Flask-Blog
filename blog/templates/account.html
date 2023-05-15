@@ -5,15 +5,24 @@
     <div class="row">
       <div class="col-md-8">
         <div class="user-information">
-          <h1 class="user-information__title">Username: {{ user.username }}</h1>
-          <p class="user-information__email">Email Address: {{ user.email }}</p>
-          <p class="user-information__activity">Last activity: {{ user.last_activity.strftime('%d/%m/%Y %H:%M') }}</p>
+          <div class="user-information__content">
+            <h1 class="user-information__title">Username: {{ user.username }}</h1>
+            <p class="user-information__email">Email Address: {{ user.email }}</p>
+            <p class="user-information__activity">Last activity: {{ user.last_activity.strftime('%d/%m/%Y %H:%M') }}</p>
+            {% if current_user.id == user.id %}
+              <a href="{{ url_for('update_account') }}" class="btn btn-primary">Update Profile</a>
+            {% endif %}
+          </div>
+
+          <div class="user-information__image">
+            <img src="{{ image_file }}" alt="User Profile Picture">
+          </div>
         </div>
         <h1>The posts of {{ user.username }}</h1>
         {% for post in posts.items %}
           <hr>
           <h2>{{ post.title }}</h2>
-          <p class="meta">Puplished by <a href="{{ url_for('account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
+          <p class="meta">Published by <a href="{{ url_for('account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
             in {{ post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
           <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
           <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
