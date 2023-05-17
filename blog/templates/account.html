@@ -6,11 +6,11 @@
       <div class="col-md-8">
         <div class="user-information">
           <div class="user-information__content">
-            <h1 class="user-information__title">Username: {{ user.username }}</h1>
+            <h3 class="user-information__title">Username: {{ user.username }}</h3>
             <p class="user-information__email">Email Address: {{ user.email }}</p>
             <p class="user-information__activity">Last activity: {{ user.last_activity.strftime('%d/%m/%Y %H:%M') }}</p>
             {% if current_user.id == user.id %}
-              <a href="{{ url_for('update_account') }}" class="btn btn-primary">Update Profile</a>
+              <a href="{{ url_for('update_account') }}" class="btn btn-outline-secondary btn-sm">Update Profile</a>
             {% endif %}
           </div>
 
@@ -18,15 +18,16 @@
             <img src="{{ image_file }}" alt="User Profile Picture">
           </div>
         </div>
-        <h1>The posts of {{ user.username }}</h1>
+        <h2>The posts of {{ user.username }}</h2>
+        <hr>
         {% for post in posts.items %}
-          <hr>
+        <div class="post-container">
           <h2>{{ post.title }}</h2>
           <p class="meta">Published by <a href="{{ url_for('account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
             in {{ post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
           <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
-          <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
-          <hr>
+          <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-outline-primary">Read More</a>
+        </div>
         {% endfor %}
       </div>
     </div>

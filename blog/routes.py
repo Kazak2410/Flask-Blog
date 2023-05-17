@@ -4,7 +4,10 @@ from PIL import Image
 from datetime import datetime
 from flask import render_template, url_for, flash, redirect, abort, request
 from blog import app, db, bcrypt, mail
-from blog.forms import RegisterForm, LoginForm, PostForm, RequestResetForm, ResetPasswordForm, UpdateAccountForm
+from blog.forms import (RegisterForm, LoginForm,
+                        PostForm, RequestResetForm,
+                        ResetPasswordForm, UpdateAccountForm,
+                        SearchForm)
 from blog.models import User, Post, Category
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Message
@@ -200,3 +203,20 @@ def update_account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     return render_template('update_account.html', form=form, title='Account')
+
+
+@app.route('/search', methods=['POST'])
+def search():
+    form = SearchForm()
+    posts = Post.query
+    if form.validate_on_submit():
+        post.searched = form.searched.data
+        posts = posts.filter(Post.content.like('%' + post.searched + '%'))
+        posts = posts.order_by(Post.title).all()
+        return render_template("search.html", form=form, searched=post.searched, posts=posts)
+
+
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
