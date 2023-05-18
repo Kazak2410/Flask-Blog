@@ -1,9 +1,8 @@
 from flask_wtf import FlaskForm
-from blog import app
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, EmailField, SubmitField, PasswordField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, EqualTo, Email, Length, ValidationError
-from blog.models import User, Category
+from wtforms import StringField, PasswordField, SubmitField, EmailField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from blog.models import User
 
 
 class RegisterForm(FlaskForm):
@@ -30,14 +29,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log in')
 
 
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired(), Length(3, 100)])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    with app.app_context():
-        category = SelectField('Category', choices=[(category.name, category.name) for category in Category.query.all()])
-    submit = SubmitField('Create')
-
-
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
@@ -59,8 +50,3 @@ class UpdateAccountForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
-
-
-class SearchForm(FlaskForm):
-    searched = StringField("Searched", validators=[DataRequired()])
-    submit = SubmitField("Submit")

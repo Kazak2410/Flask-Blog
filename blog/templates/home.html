@@ -7,17 +7,17 @@
         {% for post in posts.items %}
           <div class="post-container">
             <h2>{{ post.title }}</h2>
-            <p class="meta">Puplished by <a href="{{ url_for('account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
+            <p class="meta">Puplished by <a href="{{ url_for('users.account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
               in {{ post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
             <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
-            <p class="category">Category: <a href="{{ url_for('category', category_id=post.category_id) }}">{{ post.category.name }}</a></p>
-            <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-outline-primary">Read More</a>
+            <p class="category">Category: <a href="{{ url_for('posts.category', category_id=post.category_id) }}">{{ post.category.name }}</a></p>
+            <a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-outline-primary">Read More</a>
           </div>
         {% endfor %}
       </div>
       <div class="col-md-4">
         <h3>Search</h3>
-        <form method="POST" action="{{ url_for('search') }}" action="d-flex" id="search-form">
+        <form method="POST" action="{{ url_for('posts.search') }}" action="d-flex" id="search-form">
           {{ form.hidden_tag() }}
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for...", name="searched">
@@ -30,14 +30,14 @@
         <h3>Categories</h3>
         <div class="list-group">
           {% for category in categories %}
-            <a href="{{ url_for('category', category_id=category.id) }}" class="list-group-item">{{ category.name }}</a>
+            <a href="{{ url_for('posts.category', category_id=category.id) }}" class="list-group-item">{{ category.name }}</a>
           {% endfor %}
         </div>
       </div>
     </div>
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
       {% if page_num %}
-        <a class="pagination-link" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        <a class="pagination-link" href="{{ url_for('posts.home', page=page_num) }}">{{ page_num }}</a>
       {% else %}
         ...
       {% endif %}

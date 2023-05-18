@@ -16,6 +16,7 @@ flask-migrate = "*"
 alembic = "*"
 flask-mail = "*"
 pillow = "*"
+flask-babel = "*"
 
 [dev-packages]
 

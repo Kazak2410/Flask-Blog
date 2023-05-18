@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6f9c79c760d0fab224c464ccd4eac7c8aa714891aadacc580f41aecdecc34337"
+            "sha256": "9510f13656813c1399d28a1bab32ed669c0f291ceade6307d7a8be9ba41af5a3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,11 +18,19 @@
     "default": {
         "alembic": {
             "hashes": [
-                "sha256:295b54bbb92c4008ab6a7dcd1e227e668416d6f84b98b3c4446a2bc6214a556b",
-                "sha256:43942c3d4bf2620c466b91c0f4fca136fe51ae972394a0cc8b90810d664e4f5c"
+                "sha256:d8bf706124e96e526889ac9c87a0d50debd9ef325ef32ae5391cf0315bdab4e1",
+                "sha256:f0e74af5a6ade86b72770790188aaf64122c9cba64efd1d7ff3323ac3fdb75e0"
             ],
             "index": "pypi",
-            "version": "==1.10.4"
+            "version": "==1.11.0"
+        },
+        "babel": {
+            "hashes": [
+                "sha256:b4246fb7677d3b98f501a39d43396d3cafdc8eadb045f4a31be01863f655c610",
+                "sha256:cc2d99999cd01d44420ae725a21c9e3711b3aadc7976d6147f622d8581963455"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==2.12.1"
         },
         "bcrypt": {
             "hashes": [
@@ -98,6 +106,14 @@
             ],
             "index": "pypi",
             "version": "==2.3.2"
+        },
+        "flask-babel": {
+            "hashes": [
+                "sha256:be015772c5d7f046f3b99c508dcf618636eb93d21b713b356db79f3e79f69f39",
+                "sha256:deb3ee272d5adf97f5974ed09ab501243d63e7fb4a047501a00de4bd4aca4830"
+            ],
+            "index": "pypi",
+            "version": "==3.1.0"
         },
         "flask-bcrypt": {
             "hashes": [
@@ -371,6 +387,13 @@
             ],
             "index": "pypi",
             "version": "==9.5.0"
+        },
+        "pytz": {
+            "hashes": [
+                "sha256:1d8ce29db189191fb55338ee6d0387d82ab59f3d00eac103412d64e0ebd0c588",
+                "sha256:a151b3abb88eda1d4e34a9814df37de2a80e301e68ba0fd856fb9b46bfbbbffb"
+            ],
+            "version": "==2023.3"
         },
         "sqlalchemy": {
             "hashes": [
