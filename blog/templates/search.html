@@ -1,19 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <br>
-                <h2>You Searched For...</h2>
-                <h4><em>{{ searched }}</em></h4>
-                <br/>
-                <ul>
-                    {% for post in posts %}
-                        <li><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
-                    {% endfor %}
-                </ul>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <br>
+            <h2>You Searched For...</h2>
+            <h4><em>{{ searched }}</em></h4>
+            <br/>
+            <ul>
+                {% for post in posts %}
+                    <li><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}
