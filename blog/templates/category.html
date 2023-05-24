@@ -3,35 +3,10 @@
 {% block content %}
   <div class="row">
     <div class="col-md-8">
-      {% for post in posts %}
-      <div class="post-container">
-        <h2>{{ post.title }}</h2>
-        <p class="meta">Puplished by <a href="{{ url_for('users.account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
-          in {{ post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
-        <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
-        <p class="category">Category: <a href="{{ url_for('posts.category', category_id=post.category_id) }}">{{ post.category.name }}</a></p>
-        <a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-outline-primary">Read More</a>
-      </div>
-      {% endfor %}
+      {% include 'includes/post_template.html' %}
     </div>
     <div class="col-md-4">
-      <h3>Search</h3>
-      <form method="POST" action="{{ url_for('posts.search') }}" action="d-flex" id="search-form">
-        {{ form.hidden_tag() }}
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...", name="searched">
-          <span class="input-group-btn">
-            <button class="btn btn-secondary" type="submit" form="search-form">Go!</button>
-          </span>
-        </div>
-      </form>
-      <hr>
-      <h3>Categories</h3>
-      <div class="list-group">
-          {% for category in categories %}
-            <a href="{{ url_for('posts.category', category_id=category.id) }}" class="list-group-item">{{ category.name }}</a>
-          {% endfor %}
-      </div>
+      {% include 'includes/sidebar_template.html' %}
     </div>
   </div>
 {% endblock content %}

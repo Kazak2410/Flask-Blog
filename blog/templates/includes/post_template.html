@@ -1,0 +1,42 @@
+{% for post in posts %}
+    <div class="post-container">
+    <h2>{{ post.title }}</h2>
+    <p class="meta">Puplished by <a href="{{ url_for('users.account', user_id=post.author.id )}}"><b>{{ post.author.username }}</b></a>
+        in {{ post.date_posted.strftime('%d/%m/%Y %H:%M') }}</p>
+    <p class="text-preview">{{ post.content[:250] }}<b>...</b></p>
+    <p class="category">Category: <a href="{{ url_for('posts.category', category_id=post.category_id) }}">{{ post.category.name }}</a></p>
+
+    <hr>
+    <div class="comment-container">
+        <div class="collapse" id="comments-expanded-{{ post.id }}">
+        {% if post.comments|length > 0 %}
+            {% for comment in post.comments|reverse %}
+            <div class="row">
+                <div class="col-md-9">
+                <a href="{{ url_for('users.account', user_id=comment.author.id) }}">{{ comment.author.username }}</a>: {{ comment.text }}
+                </div>
+                <div class="col-md-3 text-right">
+                <small class="text-muted">{{ comment.date_posted.strftime('%d/%m/%Y %H:%M') }}</small>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        {% else %}
+            No comments yet
+        {% endif %}
+        </div>
+
+        <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#comments-expanded-{{ post.id }}">
+        View Comments
+        </a>
+
+        <div class="comment-form-container">
+        <form class="input-group mb-3" method="POST" action="/create_comment/{{ post.id }}">
+            <input type="text" id="text" name="text" class="form-control" placeholder="Comment something!" />
+            <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
+        </div>
+    </div>
+    <a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-outline-primary">Read More</a>
+    </div>
+    {% endfor %}

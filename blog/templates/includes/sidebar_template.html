@@ -1,0 +1,17 @@
+<h3>Search</h3>
+    <form method="POST" action="{{ url_for('posts.search') }}" action="d-flex" id="search-form">
+    {{ form.hidden_tag() }}
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for...", name="searched">
+        <span class="input-group-btn">
+            <button class="btn btn-secondary" type="submit" form="search-form">Go!</button>
+        </span>
+    </div>
+    </form>
+    <hr>
+    <h3>Categories</h3>
+    <div class="list-group">
+        {% for category in categories %}
+            <a href="{{ url_for('posts.category', category_id=category.id) }}" class="list-group-item">{{ category.name }}</a>
+        {% endfor %}
+    </div>

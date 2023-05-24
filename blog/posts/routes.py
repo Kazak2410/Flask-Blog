@@ -2,10 +2,12 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from blog import db
-from blog.models import Post, Category
+from blog.models import Post, Category, Comment
 from blog.posts.forms import PostForm, SearchForm
 
+
 posts = Blueprint('posts', __name__)
+
 
 @posts.route('/create_post', methods=['GET', 'POST'])
 @login_required
@@ -89,3 +91,23 @@ def home():
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=3)
     categories = Category.query.all()
     return render_template('home.html', posts=posts, categories=categories, title='Home')
+
+
+@posts.route('/create_comment/<post_id>/', methods=['GET', 'POST'])
+@login_required
+def create_comment(post_id):
+    text = request.form.get('text')
+
+    if not text:
+        flash('Comment cannot be empty.', 'info')
+    else:
+        post = Post.query.filter_by(id=post_id).first()
+        if post:
+            comment = Comment(text=text, author=current_user, post_id=post_id)
+            db.session.add(comment)
+            db.session.commit()
+            flash('Comment has been created!', 'success')
+        else:
+            flash('Post does not exist.', 'info')
+
+    return redirect(url_for('posts.home'))

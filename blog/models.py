@@ -1,5 +1,4 @@
 from datetime import datetime
-import secrets
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from blog import db, login_manager, app
 from flask_login import UserMixin
@@ -18,6 +17,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy='joined')
     last_activity = db.Column(db.DateTime, default=datetime.now)
+    comments = db.relationship('Comment', backref='author', lazy='joined')
 
     def get_reset_token(self):
         serializer = Serializer(app.config['SECRET_KEY'], salt='my_salt')
@@ -43,6 +43,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    comments = db.relationship('Comment', backref='comment', lazy='joined')
 
     def __repr__(self):
         return f"Post: {self.title}"
@@ -55,3 +56,14 @@ class Category(db.Model):
 
     def __repr__(self):
         return f"Category: {self.name}"
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(200), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Text: {self.text}"
