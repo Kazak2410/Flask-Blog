@@ -111,3 +111,18 @@ def create_comment(post_id):
             flash('Post does not exist.', 'info')
 
     return redirect(url_for('posts.home'))
+
+
+@posts.route('/delete_comment/<comment_id>/', methods=['GET', 'POST'])
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.filter_by(id=comment_id).first()
+
+    if current_user.id != comment.author.id and current_user.id != comment.post.author.id:
+        flash("You don't have permission", 'danger')
+    else:
+        db.session.delete(comment)
+        db.session.commit()
+        flash('Comment has been deleted', 'success')
+
+    return redirect(url_for('posts.home'))

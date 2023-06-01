@@ -43,7 +43,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    comments = db.relationship('Comment', backref='comment', lazy='joined')
+    comments = db.relationship('Comment', backref='post', lazy='joined')
 
     def __repr__(self):
         return f"Post: {self.title}"

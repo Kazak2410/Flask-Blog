@@ -13,10 +13,18 @@
             {% for comment in post.comments|reverse %}
             <div class="row">
                 <div class="col-md-9">
-                <a href="{{ url_for('users.account', user_id=comment.author.id) }}">{{ comment.author.username }}</a>: {{ comment.text }}
+                    <a href="{{ url_for('users.account', user_id=comment.author.id) }}">{{ comment.author.username }}</a>: {{ comment.text }}
                 </div>
                 <div class="col-md-3 text-right">
                 <small class="text-muted">{{ comment.date_posted.strftime('%d/%m/%Y %H:%M') }}</small>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="/delete_comment/{{comment.id}}" class="dropdown-item">Delete</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
             </div>
             <br>

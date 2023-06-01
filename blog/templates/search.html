@@ -9,7 +9,9 @@
             <br/>
             <ul>
                 {% for post in posts %}
-                    <li><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
+                    <div class="search-results">
+                        <li><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
+                    </div>
                 {% endfor %}
             </ul>
         </div>
